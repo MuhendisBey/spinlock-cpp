@@ -1,8 +1,21 @@
 #include <atomic>
 
-class spinLlock 
+class SpinLock 
 {
 public:
+    SpinLock(int lockOnCreate)
+    {
+        if (lockOnCreate)
+        {
+             while (locked.test_and_set(std::memory_order_acquire)) { ; }
+        }
+    }
+    
+    ~SpinLock()
+    {
+         locked.clear(std::memory_order_release);
+    }
+    
     void lock() 
     {
         while (locked.test_and_set(std::memory_order_acquire)) { ; }
