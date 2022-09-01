@@ -3,7 +3,7 @@
 class SpinLock 
 {
 public:
-    SpinLock(int lockOnCreate)
+    SpinLock(int lockOnCreate = false)
     {
         if (lockOnCreate)
         {
